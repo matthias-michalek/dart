@@ -1,8 +1,8 @@
 module Dart
 
-export main, reset_plot
+export main, draw_board!, draw_annotations!
 
-using Plots
+using CairoMakie
 using LinearAlgebra
 
 include("./parameters.jl")
@@ -65,12 +65,15 @@ function main()
 
     center_of_mass = sum(coms .* weights) / mass
 
-    reset_plot()
-    #Plots.scatter!([0],[0],label="")
-    draw_board(rs, phis)
-    #draw_coms(coms)
-    draw_annotation(200, phis, dphi, vals[3:end])
-    return Plots.scatter!([center_of_mass[1]], [center_of_mass[2]])
+    # Plot result
+    f = Figure()
+    colsize!(f.layout, 1, Aspect(1, 1.0))
+    ax = Axis(f[1, 1])
+    draw_board!(ax)
+    draw_annotations!(ax, 200)
+    scatter!(ax, [center_of_mass[1]], [center_of_mass[2]])
+    resize_to_layout!(f)
+    return f
 end
 
 end # of module
