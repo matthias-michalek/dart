@@ -5,6 +5,7 @@ export main, reset_plot
 using Plots
 using LinearAlgebra
 
+include("./parameters.jl")
 include("plots.jl")
 
 function area_circle_segment(ri, ro, dphi)
