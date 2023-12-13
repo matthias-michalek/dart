@@ -1,54 +1,63 @@
-function draw_coms(coms)
-    coms_r = reduce(hcat, reshape(coms, (:, 1)))'
-    Plots.scatter!([0], [0]; label="")
-    return Plots.scatter!(coms_r[:, 1], coms_r[:, 2]; label="")
+using CairoMakie
+
+φs = LinRange(0, 2π * (1 - 1 / nsections), nsections)
+
+function draw_circle!(ax::Axis, r::Number; kwargs...)
+    arc!(ax, Point2f(0), r, 0.0, 2 * π; color=:black, kwargs...)
+    return nothing
 end
 
-function reset_plot()
-    return Plots.plot()
+function draw_circles!(ax::Axis, radii; kwargs...)
+    for r in radii
+        arc!(ax, Point2f(0), r, 0.0, 2 * π; color=:black, kwargs...)
+    end
+    return nothing
 end
 
-function draw_circle(x0, y0, r)
-    ϕ = LinRange(0, 2π, 500)
-    x = x0 .+ sin.(ϕ) * r
-    y = y0 .+ cos.(ϕ) * r
-
-    return Plots.plot!(x, y; aspect_ratio=:equal, color="black", label="")
+@inline function draw_line!(ax::Axis, ri::Number, ro::Number, φ::Number; kwargs...)
+    x = [ri, ro] * cos(φ)
+    y = [ri, ro] * sin(φ)
+    lines!(ax, x, y; color=:black, kwargs...)
+    return nothing
 end
 
-function draw_circles(rb_i, rb_o, ri_i, ri_o, ro_i, ro_o)
-    draw_circle(0, 0, rb_i)
-    draw_circle(0, 0, rb_o)
-
-    draw_circle(0, 0, ri_i)
-    draw_circle(0, 0, ri_o)
-
-    draw_circle(0, 0, ro_i)
-    return draw_circle(0, 0, ro_o)
-end
-
-function draw_line(ri, ro, phi)
-    x = [ri, ro] * cos(phi)
-    y = [ri, ro] * sin(phi)
-
-    return Plots.plot!(x, y; color="black", label="")
-end
-
-function draw_lines(ri, ro, phis)
-    for phi in phis
-        draw_line(ri, ro, phi)
+function draw_lines!(ax::Axis, ri::Number, ro::Number, φs; kwargs...)
+    for φ in φs
+        draw_line!(ax, ri, ro, φ; kwargs...)
     end
 end
 
-function draw_board(rs, phis)
-    rb_i, rb_o, ri_i, ri_o, ro_i, ro_o = rs
-    draw_lines(rb_o, ro_o, phis)
-    return draw_circles(rb_i, rb_o, ri_i, ri_o, ro_i, ro_o)
+"""
+    draw_board!(ax::Axis; kwargs...)
+
+Draw a dart board on `ax`.
+"""
+function draw_board!(ax::Axis; kwargs...)
+    ri = radii[2]
+    ro = radii[end]
+    draw_lines!(ax, ri, ro, φs .- π / nsections; kwargs...)
+    draw_circles!(ax, radii; kwargs...)
+    return nothing
 end
 
-function draw_annotation(r, phis, dphi, vals)
-    xs = @. r * cos(phis + dphi / 2)
-    ys = @. r * sin(phis + dphi / 2)
+"""
+    draw_annotations!(ax::Axis, r::Number)
 
-    return Plots.annotate!(xs, ys, vals)
+Annotate sections of dart board.
+
+`r` is the radius at which the numbers are written.
+Since the board itelf has a radius of 170, larger numbers than that are recommended.
+"""
+function draw_annotations!(ax::Axis, r::Number)
+    φs = range(0, 2π * (1 - 1 / nsections), nsections)
+    xs = r * [cos(φ) for φ in φs]
+    ys = r * [sin(φ) for φ in φs]
+
+    annotations!(
+        ax,
+        [string(p) for p in points],
+        [Point(x, y) for (x, y) in zip(xs, ys)];
+        align=(:center, :center),
+    )
+    return nothing
 end
