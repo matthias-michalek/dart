@@ -46,7 +46,7 @@ Annotate sections of dart board.
 `r` is the radius at which the numbers are written.
 Since the board itself has a radius of 170, larger numbers than that are recommended.
 """
-function draw_annotations!(ax::Axis, r::Number=200)
+function draw_annotations!(ax::Axis, r::Number=200; kwargs...)
     φs = range(0, 2π * (1 - 1 / nsections), nsections)
     xs = r * [cos(φ) for φ in φs]
     ys = r * [sin(φ) for φ in φs]
@@ -56,6 +56,7 @@ function draw_annotations!(ax::Axis, r::Number=200)
         [string(p) for p in points],
         [Point(x, y) for (x, y) in zip(xs, ys)];
         align=(:center, :center),
+        kwargs...,
     )
     return nothing
 end
