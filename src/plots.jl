@@ -60,3 +60,16 @@ function draw_annotations!(ax::Axis, r::Number=200; kwargs...)
     )
     return nothing
 end
+
+function draw_heatmap(xs, ys, zs)
+    f = Figure()
+    colsize!(f.layout, 1, Aspect(1, 1.0))
+    ax = Axis(f[1, 1])
+
+    heatmap!(ax, xs, ys, zs)
+    draw_board!(ax)
+    draw_annotations!(ax, 180; color=:white)
+    Colorbar(f[:, end + 1]; limits=(0, 60))
+    resize_to_layout!(f)
+    return f
+end
