@@ -1,6 +1,7 @@
 module Dart
 
-export polar, cartesian, dart_points, main, draw_board!, draw_annotations!, random_samples
+export polar,
+    cartesian, dart_points, main, draw_board!, draw_annotations!, expectation_values
 
 using CairoMakie
 using LinearAlgebra
