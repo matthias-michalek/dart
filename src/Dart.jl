@@ -1,12 +1,13 @@
 module Dart
 
-export polar, cartesian, main, draw_board!, draw_annotations!
+export polar, cartesian, dart_points, main, draw_board!, draw_annotations!
 
 using CairoMakie
 using LinearAlgebra
 
 include("./parameters.jl")
 include("./transformations.jl")
+include("./points.jl")
 include("plots.jl")
 
 function area_circle_segment(ri, ro, dphi)
