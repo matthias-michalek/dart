@@ -1,6 +1,6 @@
 module Dart
 
-export polar, cartesian, dart_points, main, draw_board!, draw_annotations!
+export polar, cartesian, dart_points, main, draw_board!, draw_annotations!, random_samples
 
 using CairoMakie
 using LinearAlgebra
@@ -9,6 +9,7 @@ include("./parameters.jl")
 include("./transformations.jl")
 include("./points.jl")
 include("plots.jl")
+include("random_samples.jl")
 
 function area_circle_segment(ri, ro, dphi)
     return dphi * (ro^2 - ri^2)
