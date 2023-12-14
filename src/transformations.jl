@@ -22,8 +22,17 @@ Convert ``(r, φ) → (x, y)``.
     return (x, y)
 end
 
+"""
+    polar(xys)
+
+Convert ``n×2`` matrix `xys` to polar coordinates.
+
+First (second) column is the  `x` (`y`) component.
+
+Returns two vectors. First contains distance `r`, second angle `φ`.
+"""
 function polar(xys)
-    r = sqrt.(sum(xys .^ 2; dims=2))
+    r = sqrt.(sum(xys .^ 2; dims=2))[:, 1]
     φ = atan.(xys[:, 2], xys[:, 1])
     return (r, φ)
 end
