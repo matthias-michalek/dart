@@ -10,6 +10,7 @@ include("./transformations.jl")
 include("./points.jl")
 include("plots.jl")
 include("random_samples.jl")
+include("./eval_points.jl")
 
 function area_circle_segment(ri, ro, dphi)
     return dphi * (ro^2 - ri^2)
