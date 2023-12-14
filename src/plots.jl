@@ -39,12 +39,12 @@ function draw_board!(ax::Axis; kwargs...)
 end
 
 """
-    draw_annotations!(ax::Axis, r::Number)
+    draw_annotations!(ax::Axis, r::Number=200)
 
 Annotate sections of dart board.
 
 `r` is the radius at which the numbers are written.
-Since the board itelf has a radius of 170, larger numbers than that are recommended.
+Since the board itself has a radius of 170, larger numbers than that are recommended.
 """
 function draw_annotations!(ax::Axis, r::Number)
     φs = range(0, 2π * (1 - 1 / nsections), nsections)
