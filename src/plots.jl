@@ -1,7 +1,5 @@
 using CairoMakie
 
-φs = LinRange(0, 2π * (1 - 1 / nsections), nsections)
-
 function draw_circle!(ax::Axis, r::Number; kwargs...)
     arc!(ax, Point2f(0), r, 0.0, 2 * π; color=:black, kwargs...)
     return nothing
