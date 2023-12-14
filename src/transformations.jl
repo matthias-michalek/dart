@@ -21,3 +21,9 @@ Convert ``(r, φ) → (x, y)``.
     y = r * sin(φ)
     return (x, y)
 end
+
+function polar(xys)
+    r = sqrt.(sum(xys .^ 2; dims=2))
+    φ = atan.(xys[:, 2], xys[:, 1])
+    return (r, φ)
+end
