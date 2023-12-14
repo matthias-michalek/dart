@@ -1,11 +1,17 @@
-# MVP of a heatmap without gaussian.
+# evaluate board
 
-using CairoMakie
+using Distributions
 
-function mvp()
-    xs = range(-200, 200; length=400)
-    ys = range(-200, 200; length=400)
-    return zs = [dart_points(polar(x, y)...) for x in xs, y in ys]
+"""
+    random_samples(σ_x::Number, σ_y::Number, n::Int=1000, cov_xy::Number=0.0)
+
+Get `n` random samples of a bivariate distribution with variances `σ_x^2`, `σ_y^2`, and covariance `cov_xy`.
+"""
+function random_samples(σ_x::Number, σ_y::Number, n::Int=1000, cov_xy::Number=0)
+    C = [σ_x^2 cov_xy; cov_xy σ_y^2]
+    µ = [0, 0]
+    d = MvNormal(µ, C)
+    return transpose(rand(d, n))
 end
 
 function exp_val(vec_xy, σ_x::Number, σ_y::Number, cov_xy::Number=0, n_samples::Int=1000)
