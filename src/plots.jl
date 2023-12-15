@@ -61,14 +61,21 @@ function draw_annotations!(ax::Axis, r::Number=200; kwargs...)
     return nothing
 end
 
+"""
+    draw_heatmap(xs, ys, zs)
+
+Return a `Figure` containing a heatmap.
+
+`xs`, `ys` is the grid, `zs` contains the values.
+"""
 function draw_heatmap(xs, ys, zs)
     f = Figure()
     colsize!(f.layout, 1, Aspect(1, 1.0))
     ax = Axis(f[1, 1])
 
-    heatmap!(ax, xs, ys, zs)
+    heatmap!(ax, xs, ys, zs; colorrange=(0, 60))
     draw_board!(ax)
-    draw_annotations!(ax, 180; color=:white)
+    draw_annotations!(ax, 185; color=:white)
     Colorbar(f[:, end + 1]; limits=(0, 60))
     resize_to_layout!(f)
     return f
