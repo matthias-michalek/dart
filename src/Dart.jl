@@ -2,7 +2,7 @@ module Dart
 
 export polar, cartesian, dart_points, main, expectation_values
 # Plotting
-export draw_board!, draw_annotations!, draw_heatmap
+export draw_board!, draw_annotations!, draw_heatmap, draw_heatmap!
 
 using CairoMakie
 using LinearAlgebra

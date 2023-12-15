@@ -80,3 +80,15 @@ function draw_heatmap(xs, ys, zs)
     resize_to_layout!(f)
     return f
 end
+
+"""
+    draw_heatmap!(ax::Axis, xs, ys, zs)
+
+Draw a heatmap on `ax`.
+
+`xs`, `ys` is the grid, `zs` contains the values.
+"""
+function draw_heatmap!(ax::Axis, xs, ys, zs)
+    heatmap!(ax, xs, ys, zs; colorrange=(0, 60))
+    return nothing
+end
